@@ -1,0 +1,73 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="form">
+
+    <h2>{{ isEditMode ? 'Editar Producto' : 'Formulario de Registro' }}</h2>
+
+    <div class="row">
+        <div class="field">
+            <label>ID</label>
+            <input type="text" formControlName="id" [disabled]="isEditMode"/>
+
+            <small *ngIf="f.id.touched && f.id.hasError('required')">Requerido</small>
+            <small *ngIf="f.id.hasError('minlength')">Mínimo 3 caracteres</small>
+            <small *ngIf="f.id.hasError('maxlength')">Máximo 10 caracteres</small>
+            <small *ngIf="f.id.hasError('idExists')">El ID ya existe</small>
+        </div>
+
+        <div class="field">
+            <label>Nombre</label>
+            <input type="text" formControlName="name" />
+
+            <small *ngIf="f.name.touched && f.name.hasError('required')">Requerido</small>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="field">
+            <label>Descripción</label>
+            <input type="text" formControlName="description" />
+
+            <small *ngIf="f.description.touched && f.description.hasError('required')">Requerido</small>
+        </div>
+
+        <div class="field">
+            <label>Logo</label>
+            <input type="text" formControlName="logo" />
+
+            <small *ngIf="f.logo.touched && f.logo.hasError('required')">Requerido</small>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="field">
+            <label>Fecha Liberación</label>
+            <input type="date" formControlName="date_release" />
+
+            <small *ngIf="f.date_release.hasError('releaseDate')">
+                La fecha debe ser hoy o mayor
+            </small>
+        </div>
+
+        <div class="field">
+            <label>Fecha Revisión</label>
+            <input type="date" formControlName="date_revision" readonly />
+
+            <small *ngIf="f.date_revision.hasError('revisionDate')">
+                Debe ser exactamente +1 año
+            </small>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button 
+            class="btn btn-secondary"
+            type="button" 
+            (click)="reset()"
+            [disabled]="isEditMode"
+        >Reiniciar</button>
+        <button 
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="form.invalid"
+        >{{ isSubmitting ? 'Guardando...' : 'Enviar' }}</button>
+    </div>
+</form>

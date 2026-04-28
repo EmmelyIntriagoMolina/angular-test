@@ -1,0 +1,62 @@
+<main>
+    <div class="container">
+        <div class="top-bar">
+            <input 
+                type="text"
+                class="search" 
+                placeholder="Buscar Producto..."
+                [formControl]="searchControl"
+                (input)="handleSearch()"
+            >
+            <button (click)="goToCreate()" class="btn btn-primary">
+                Agregar
+            </button>
+            
+        </div>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Logo</th>
+                    <th>Nombre del producto</th>
+                    <th>Descripción<span class="info-icon">&nbsp;ℹ️</span></th>
+                    <th>Fecha Liberación<span class="info-icon">&nbsp;ℹ️</span></th>
+                    <th>Fecha Reestructuración<span class="info-icon">&nbsp;ℹ️</span></th>
+                    <th>Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of filteredProducts">
+                    <td class="col-logo">
+                        <img src="{{product.logo}}" alt="Logo" class="logo-circular">
+                    </td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>{{ product.date_release | date: "dd-MM-YYYY" }}</td>
+                    <td>{{ product.date_revision | date: "dd-MM-YYYY" }}</td>
+                    <td style="position: relative;">
+                        <div class="dropdown">
+                            <button class="btn" (click)="product.activeMenu = !product.activeMenu">⋮</button>
+                            <div class="menu" *ngIf="product.activeMenu">
+                              <button (click)="goToUpdate(product.id)">Editar</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="scrollbar">
+            <div class="scrollbar-thumb"></div>
+        </div>
+        
+        <div class="footer">
+            <span>{{ filteredProducts.length }} Resultados</span>
+            <select class="select-page" (change)="onChangeSize($event)">
+                <option [value]="5">5</option>
+                <option [value]="10">10</option>
+                <option [value]="20">20</option>
+            </select>
+        </div>
+    </div>
+</main>
